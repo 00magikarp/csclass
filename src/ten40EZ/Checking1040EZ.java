@@ -121,7 +121,7 @@ public class Checking1040EZ implements EZ1040Methods {
 	@Override
 	public int calculateLine6(int line4, int line5) {
 		int taxableIncome = Math.max(line4 - line5, 0);
-		if (taxableIncome > 100_000) {
+		if (taxableIncome >= 100_000) {
 			System.out.println("Your taxable income is above $100,000. You cannot use Form 1040EZ.");
 			System.exit(0);
 		}
