@@ -1,10 +1,13 @@
+/**
+ * @author:
+ * @date : 11/16/2024
+ */
+
 package ten40EZ;
 
-/** @author:
-    @date : 
-**/
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.InputMismatchException;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 
@@ -66,7 +69,7 @@ public class Checking1040EZ implements EZ1040Methods {
 		if (line1_fromFile != -1) {
 			return line1_fromFile; // data has already been entered from a file
 		}
-		return 0;
+		return getInt("Wages, salaries, and tips. This should be shown in box 1 of your Form(s) W-2.");
 	}
 
 	@Override
@@ -74,7 +77,12 @@ public class Checking1040EZ implements EZ1040Methods {
 		if (line2_fromFile != -1) {
 			return line2_fromFile; // data has already been entered from a file
 		}
-		return 0;
+		int taxableInterest = getInt(prompt);
+		if (taxableInterest > 1500) {
+			System.out.println("Your taxable interest is above $1,500. You cannot use Form 1040EZ.");
+			System.exit(0);
+		}
+		return taxableInterest;
 	}
 
 	@Override
@@ -82,13 +90,12 @@ public class Checking1040EZ implements EZ1040Methods {
 		if (line3_fromFile != -1) {
 			return line3_fromFile; // data has already been entered from a file
 		}
-		return 0;
+		return getInt(prompt);
 	}
 
 	@Override
 	public int calculateLine4(int line1, int line2, int line3) {
-		// TODO Auto-generated method stub
-		return 0;
+		return line1 + line2 + line3;
 	}
 
 	@Override
@@ -96,19 +103,29 @@ public class Checking1040EZ implements EZ1040Methods {
 		if (line5A_fromFile != -1) {
 			return line5A_fromFile; // data has already been entered from a file
 		}
-		return 0;
+		return getInt(prompt, 1);
 	}
 
 	@Override
 	public int calculateLine5(int line1, int line5a) {
-		// TODO Auto-generated method stub
-		return 0;
+		int NON_DEPENDENCY = 0;
+		if (line5a == NON_DEPENDENCY) {
+			return 10400;
+		}
+		return Math.min(
+				Math.max(line1 + 350, 1050),
+				6350
+		);
 	}
 
 	@Override
 	public int calculateLine6(int line4, int line5) {
-		// TODO Auto-generated method stub
-		return 0;
+		int taxableIncome = Math.max(line4 - line5, 0);
+		if (taxableIncome > 100_000) {
+			System.out.println("Your taxable income is above $100,000. You cannot use Form 1040EZ.");
+			System.exit(0);
+		}
+		return taxableIncome;
 	}
 
 	@Override
@@ -116,13 +133,12 @@ public class Checking1040EZ implements EZ1040Methods {
 		if (line7_fromFile != -1) {
 			return line7_fromFile; // data has already been entered from a file
 		}
-		return 0;
+		return getInt(prompt);
 	}
 
 	@Override
 	public int calculateLine9(int line7, int line8) {
-		// TODO Auto-generated method stub
-		return 0;
+		return line7 + line8;
 	}
 
 	@Override
@@ -130,25 +146,43 @@ public class Checking1040EZ implements EZ1040Methods {
 		if (line10_fromFile != -1) {
 			return line10_fromFile; // data has already been entered from a file
 		}
-		return 0;
+		return getInt(prompt);
 	}
 
 	@Override
 	public int calculateLine12(int line10, int line11) {
-		// TODO Auto-generated method stub
-		return 0;
+		return line10 + line11;
 	}
 
 	@Override
 	public int calculateLine13(int line9, int line12) {
-		// TODO Auto-generated method stub
-		return 0;
+		return Math.max(line9 - line12, 0);
 	}
 
 	@Override
 	public int calculateLine14(int line9, int line12) {
-		// TODO Auto-generated method stub
-		return 0;
+		return Math.max(line12 - line9, 0);
 	}
 
+	private int getInt(String prompt) {
+		return getInt(prompt, Integer.MAX_VALUE);
+	}
+
+	private int getInt(String prompt, int upperBound) {
+		int i;
+
+		while (true) {
+			try {
+				System.out.println(prompt);
+				i = kb.nextInt();
+				if (0 <= i && i <= upperBound) {
+					return i;
+				}
+				System.out.println("Wrong/invalid input; try again!");
+			} catch (InputMismatchException e) {
+				System.out.println("Not an integer; please try again!");
+				kb.nextLine();
+			}
+		}
+	}
 }
