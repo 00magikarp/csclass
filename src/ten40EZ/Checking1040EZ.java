@@ -69,7 +69,7 @@ public class Checking1040EZ implements EZ1040Methods {
 		if (line1_fromFile != -1) {
 			return line1_fromFile; // data has already been entered from a file
 		}
-		return getInt("Wages, salaries, and tips. This should be shown in box 1 of your Form(s) W-2.");
+		return getInt(prompt);
 	}
 
 	@Override
@@ -169,20 +169,23 @@ public class Checking1040EZ implements EZ1040Methods {
 	}
 
 	private int getInt(String prompt, int upperBound) {
-		int i;
+		int i = 0;
+		boolean success = false;
 
-		while (true) {
+		while (!success) {
 			try {
 				System.out.println(prompt);
 				i = kb.nextInt();
 				if (0 <= i && i <= upperBound) {
-					return i;
+					success = true;
+				} else {
+					System.out.println("Wrong/invalid input; try again!");
 				}
-				System.out.println("Wrong/invalid input; try again!");
 			} catch (InputMismatchException e) {
 				System.out.println("Not an integer; please try again!");
 				kb.nextLine();
 			}
 		}
+		return i;
 	}
 }

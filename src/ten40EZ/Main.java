@@ -2,7 +2,6 @@ package ten40EZ;
 class Main {
   public static void main(String[] args) {
     Checking1040EZ checker = new Checking1040EZ(args);
-    //Give directions
 
     int[] lines = new int[14];
 
@@ -26,7 +25,9 @@ class Main {
     lines[13] = checker.calculateLine14(lines[8], lines[11]);
 
     for (int i = 0; i < lines.length; i++) {
-      System.out.println("Line " + i + ": " + lines[i]);
+      System.out.print("Line " + (i + 1) + ":");
+      System.out.print(" ".repeat(5 - Integer.toString(i).length()));
+      System.out.println(lines[i]);
     }
   }
 }
