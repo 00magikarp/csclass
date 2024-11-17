@@ -26,7 +26,7 @@ class Main {
 
     for (int i = 0; i < lines.length; i++) {
       System.out.print("Line " + (i + 1) + ":");
-      System.out.print(" ".repeat(5 - Integer.toString(i).length()));
+      System.out.print(" ".repeat(5 - Integer.toString(i + 1).length()));
       System.out.println(lines[i]);
     }
   }
