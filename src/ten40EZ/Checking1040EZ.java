@@ -12,7 +12,7 @@ import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 public class Checking1040EZ implements EZ1040Methods {
-	private Scanner kb;
+	private final Scanner kb;
 	// Fields - for use only with file input - DO NOT EDIT VALUES
 	private int line1_fromFile;
 	private int line2_fromFile;
@@ -69,6 +69,7 @@ public class Checking1040EZ implements EZ1040Methods {
 		if (line1_fromFile != -1) {
 			return line1_fromFile; // data has already been entered from a file
 		}
+
 		return getInt(prompt);
 	}
 
@@ -78,10 +79,14 @@ public class Checking1040EZ implements EZ1040Methods {
 			return line2_fromFile; // data has already been entered from a file
 		}
 		int taxableInterest = getInt(prompt);
-		if (taxableInterest > 1500) {
-			System.out.println("Your taxable interest is above $1,500. You cannot use Form 1040EZ.");
+		boolean TAXABLE_INTEREST_OVER_THRESHOLD = taxableInterest > 1500;
+
+		if (TAXABLE_INTEREST_OVER_THRESHOLD) {
+			System.out.println("Your taxable interest (line 2) is greater than the maximum threshold of $1,500. " +
+					"You cannot use Form 1040EZ.");
 			System.exit(0);
 		}
+
 		return taxableInterest;
 	}
 
@@ -90,6 +95,7 @@ public class Checking1040EZ implements EZ1040Methods {
 		if (line3_fromFile != -1) {
 			return line3_fromFile; // data has already been entered from a file
 		}
+
 		return getInt(prompt);
 	}
 
@@ -103,12 +109,14 @@ public class Checking1040EZ implements EZ1040Methods {
 		if (line5A_fromFile != -1) {
 			return line5A_fromFile; // data has already been entered from a file
 		}
+
 		return getInt(prompt, 1);
 	}
 
 	@Override
 	public int calculateLine5(int line1, int line5a) {
 		int NON_DEPENDENCY = 0;
+
 		if (line5a == NON_DEPENDENCY) {
 			return 10400;
 		}
@@ -121,10 +129,14 @@ public class Checking1040EZ implements EZ1040Methods {
 	@Override
 	public int calculateLine6(int line4, int line5) {
 		int taxableIncome = Math.max(line4 - line5, 0);
-		if (taxableIncome >= 100_000) {
-			System.out.println("Your taxable income is above $100,000. You cannot use Form 1040EZ.");
+		boolean TAXABLE_INCOME_ABOVE_THRESHOLD = taxableIncome >= 100_000;
+
+		if (TAXABLE_INCOME_ABOVE_THRESHOLD) {
+			System.out.println("Your taxable income (line 6) is greater than the maximum threshold of $100,000. " +
+					"You cannot use Form 1040EZ.");
 			System.exit(0);
 		}
+
 		return taxableIncome;
 	}
 
@@ -133,6 +145,7 @@ public class Checking1040EZ implements EZ1040Methods {
 		if (line7_fromFile != -1) {
 			return line7_fromFile; // data has already been entered from a file
 		}
+
 		return getInt(prompt);
 	}
 
@@ -146,6 +159,7 @@ public class Checking1040EZ implements EZ1040Methods {
 		if (line10_fromFile != -1) {
 			return line10_fromFile; // data has already been entered from a file
 		}
+
 		return getInt(prompt);
 	}
 
