@@ -1,0 +1,4 @@
+12/16/2024 Part 1
+- Imported CaesarCipher from Friday
+- Cipherable
+- Input validation for SubstitutionCipher
