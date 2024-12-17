@@ -4,7 +4,7 @@ public class CaesarCipher implements Cipherable {
     private int shift;
 
     public CaesarCipher() {
-        shift = 0;
+        shift = (int) (Math.random() * 26);
     }
 
     public CaesarCipher(int s) {
@@ -37,5 +37,9 @@ public class CaesarCipher implements Cipherable {
         String answer = encode(in);
         shift += 26;
         return answer;
+    }
+
+    public int getShift() {
+        return shift;
     }
 }
