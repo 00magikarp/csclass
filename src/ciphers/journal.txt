@@ -7,3 +7,9 @@
 - Finish SubstitutionCipher
 - Start and finish XORCipher
 - Start app
+
+12/17/2024
+- Edit XOR to output encoded/input decoded with hex
+  - Changed how XOR encode works to go byte by byte
+- Made application
+- Added javadocs
