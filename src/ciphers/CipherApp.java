@@ -71,7 +71,7 @@ public class CipherApp {
         Scanner kb = new Scanner(System.in);
         int x = 0;
 
-        while (!(1 <= x && x <= 3)) {
+        while (!(1 <= x && x <= numChoices)) {
             try {
                 x = kb.nextInt();
                 if (!(1 <= x && x <= numChoices)) {
