@@ -21,7 +21,7 @@ public class CipherApp {
                 c = new CaesarCipher();
                 System.out.println("Random key: " + c.getShift());
             } else {
-                c = new CaesarCipher(Integer.valueOf(cipherKey));
+                c = new CaesarCipher(Integer.parseInt(cipherKey));
             }
 
             if (direction == 1) {
@@ -63,15 +63,15 @@ public class CipherApp {
     private static String getString(String prompt) {
         System.out.println(prompt);
         Scanner kb = new Scanner(System.in);
-        return kb.next();
+        return kb.nextLine();
     }
 
     private static int choice(String prompt, int numChoices) {
-        System.out.println(prompt);
         Scanner kb = new Scanner(System.in);
         int x = 0;
 
         while (!(1 <= x && x <= numChoices)) {
+            System.out.println(prompt);
             try {
                 x = kb.nextInt();
                 if (!(1 <= x && x <= numChoices)) {
@@ -80,6 +80,7 @@ public class CipherApp {
             } catch (InputMismatchException e) {
                 System.out.println("ERROR: input not proper");
             }
+            kb.nextLine();
         }
         return x;
     }

@@ -21,8 +21,6 @@ import java.util.List;
 public class SubstitutionCipher implements Cipherable {
     private String shuffledUpper;
     private String shuffledLower;
-    private static final String ALPHABET_UPPER = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-    private static final String ALPHABET_LOWER = "abcdefghijklmnopqrstuvwxyz";
 
     /**
      * Generate a new {@link SubstitutionCipher} Object with a random key.
@@ -31,7 +29,7 @@ public class SubstitutionCipher implements Cipherable {
         String cur = "";
 
         while (cur.length() < 26) {
-            char c = ALPHABET_UPPER.charAt((int) (Math.random() * 26));
+            char c = (char) ((int) (Math.random() * 26) + 65);
             if (cur.indexOf(c) == -1) {
                 cur += c;
             }
@@ -51,11 +49,12 @@ public class SubstitutionCipher implements Cipherable {
         if (s.length() != 26) {
             throw new IllegalArgumentException("Illegally formatted key - improper length");
         }
+        s = s.toUpperCase();
 
         int[] count = new int[26];
 
         for (int i = 0; i < 26; i++) {
-            if ((int) s.charAt(i) < 65 || (int) s.charAt(i) > 90) {
+            if (!Character.isLetter(s.charAt(i))) {
                 throw new IllegalArgumentException("Illegally formatted key - illegal character");
             }
             count[(int) s.charAt(i) - 65]++;
@@ -67,7 +66,7 @@ public class SubstitutionCipher implements Cipherable {
             }
         }
 
-        shuffledUpper = s.toUpperCase();
+        shuffledUpper = s;
         shuffledLower = s.toLowerCase();
     }
 
@@ -80,20 +79,17 @@ public class SubstitutionCipher implements Cipherable {
     public String encode(String m) {
         char[] old = m.toCharArray();
         char[] answer = m.toCharArray();
-        int curCharAsInt;
 
         for (int i = 0; i < m.length(); i++) {
-            curCharAsInt = (int) old[i];
-            if (curCharAsInt < 65 ||
-                    curCharAsInt >= 91 && curCharAsInt <= 96 ||
-                    curCharAsInt > 122) {
+            if (!Character.isLetter(old[i])) {
                 answer[i] = old[i];
+                continue;
             }
 
-            if (ALPHABET_UPPER.indexOf(old[i]) != -1) {
-                answer[i] = shuffledUpper.charAt(ALPHABET_UPPER.indexOf(old[i]));
+            if (Character.isUpperCase(old[i])) {
+                answer[i] = shuffledUpper.charAt(old[i] - 65);
             } else {
-                answer[i] = shuffledLower.charAt(ALPHABET_LOWER.indexOf(old[i]));
+                answer[i] = shuffledLower.charAt(old[i] - 97);
             }
         }
         return new String(answer);
@@ -107,20 +103,17 @@ public class SubstitutionCipher implements Cipherable {
     public String decode(String c) {
         char[] old = c.toCharArray();
         char[] answer = c.toCharArray();
-        int curCharAsInt;
 
         for (int i = 0; i < c.length(); i++) {
-            curCharAsInt = (int) old[i];
-            if (curCharAsInt < 65 ||
-                    curCharAsInt >= 91 && curCharAsInt <= 96 ||
-                    curCharAsInt > 122) {
-                throw new IllegalArgumentException("Cannot decipher argument");
+            if (!Character.isLetter(old[i])) {
+                answer[i] = old[i];
+                continue;
             }
 
-            if (ALPHABET_UPPER.indexOf(old[i]) != -1) {
-                answer[i] = ALPHABET_UPPER.charAt(shuffledUpper.indexOf(old[i]));
+            if (Character.isUpperCase(old[i])) {
+                answer[i] = (char) (shuffledUpper.indexOf(old[i]) + 65);
             } else {
-                answer[i] = ALPHABET_LOWER.charAt(shuffledLower.indexOf(old[i]));
+                answer[i] = (char) (shuffledLower.indexOf(old[i]) + 97);
             }
         }
         return new String(answer);

@@ -13,3 +13,7 @@
   - Changed how XOR encode works to go byte by byte
 - Made application
 - Added javadocs
+
+12/19/2024
+- Remove alphabet string from SubstitutionCipher
+- Used helper methods instead of char ASCII value
